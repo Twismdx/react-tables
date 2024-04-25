@@ -11,7 +11,6 @@ const Table17 = () => {
 	const [matchId, setMatchId] = useState(null)
 	const [compId, setCompId] = useState(null)
 	const [stats, setStats] = useState({})
-	let adj = null
 	const id = 17
 
 	const reset = () => {
@@ -110,26 +109,16 @@ const Table17 = () => {
 		return frames
 	}
 
-	useEffect(() => {
-		if (org === 'vegasleague') {
-			adj = new Array(stats[0])
-		}
-	}, [org])
+	let adj = []
+	let homeScore = null
+	let awayScore = null
 
-	useEffect(() => {
-		if (org === 'vegasleague') {
-			const calculateScore = (data, type) =>
-				Object.values(data).reduce(
-					(acc, curr) =>
-						acc +
-						parseInt(curr[`${type}scorepoints`]) +
-						parseInt(curr[`${type}framepointsadj`]),
-					0
-				)
-		}
-	}, [org, stats])
-	const homeScore = calculateScore(adj, 'home')
-	const awayScore = calculateScore(adj, 'away')
+	if (org === 'vegasleague' && stats && stats.length > 0) {
+		adj = new Array(stats[0])
+
+		homeScore = calculateScore(adj, 'home')
+		awayScore = calculateScore(adj, 'away')
+	}
 
 	const calculateFrames = (data, type) =>
 		Object.values(data).reduce(
