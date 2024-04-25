@@ -3,13 +3,14 @@ import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
-const socket = io()
+const socket = io('https://twism.vercel.app/')
 
 const Table19 = () => {
 	const [org, setOrg] = useState('ko')
 	const [visible, setVisible] = useState(false)
 	const [matchId, setMatchId] = useState(null)
 	const [compId, setCompId] = useState(null)
+	const [stats, setStats] = useState({})
 	const id = 19
 
 	const reset = () => {
@@ -106,6 +107,16 @@ const Table19 = () => {
 		const frames = 36 - total
 
 		return frames
+	}
+
+	const calculateScore = (data, type) => {
+		Object.values(data).reduce(
+			(acc, curr) =>
+				acc +
+				parseInt(curr[`${type}scorepoints`]) +
+				parseInt(curr[`${type}framepointsadj`]),
+			0
+		)
 	}
 
 	let adj = []

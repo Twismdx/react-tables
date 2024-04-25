@@ -109,6 +109,16 @@ const Table21 = () => {
 		return frames
 	}
 
+	const calculateScore = (data, type) => {
+		Object.values(data).reduce(
+			(acc, curr) =>
+				acc +
+				parseInt(curr[`${type}scorepoints`]) +
+				parseInt(curr[`${type}framepointsadj`]),
+			0
+		)
+	}
+
 	let adj = []
 	let homeScore = null
 	let awayScore = null
