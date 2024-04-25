@@ -116,14 +116,18 @@ const Table20 = () => {
 		}
 	}, [org])
 
-	const calculateScore = (data, type) =>
-		Object.values(data).reduce(
-			(acc, curr) =>
-				acc +
-				parseInt(curr[`${type}scorepoints`]) +
-				parseInt(curr[`${type}framepointsadj`]),
-			0
-		)
+	useEffect(() => {
+		if (org === 'vegasleague') {
+			const calculateScore = (data, type) =>
+				Object.values(data).reduce(
+					(acc, curr) =>
+						acc +
+						parseInt(curr[`${type}scorepoints`]) +
+						parseInt(curr[`${type}framepointsadj`]),
+					0
+				)
+		}
+	}, [org, stats])
 	const homeScore = calculateScore(adj, 'home')
 	const awayScore = calculateScore(adj, 'away')
 
