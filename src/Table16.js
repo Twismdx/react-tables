@@ -55,13 +55,15 @@ const Table16 = () => {
 		if (stats && stats.livestatus) {
 			const intervalId = setInterval(() => {
 				if (stats.livestatus === '3') {
-					socket.emit(`finish-${id}`, {
+					socket.emit(`response`, {
 						id: id,
+						response: 'close',
 					})
 					reset()
 				} else {
-					socket.emit(`${id}-status`, {
-						livestatus: stats.livestatus,
+					socket.emit(`response`, {
+						id: id,
+						response: 'live',
 					})
 				}
 			}, 30000)
@@ -84,10 +86,9 @@ const Table16 = () => {
 				case 'ids':
 					if (data.matchId) {
 						setMatchId(data.matchId)
-					} else if (data.compId) {
 						setCompId(data.compId)
-					} else if (data.compname) {
 						setOrg(data.compname)
+						setVisible(true)
 					}
 					break
 				default:
