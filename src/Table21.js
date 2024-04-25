@@ -3,7 +3,7 @@ import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
-const socket = io('https://twism.vercel.app')
+const socket = io()
 
 const Table21 = () => {
 	const [org, setOrg] = useState('ko')
@@ -53,20 +53,22 @@ const Table21 = () => {
 	}, [compId, matchId])
 
 	useEffect(() => {
-		if (stats) {
-			if (stats.liveStatus === '3') {
-				socket.emit('finish', {
-					id: id,
-				})
-				reset()
-			}
-		}
-	}, [stats])
+		if (stats && stats.liveStatus) {
+			const intervalId = setInterval(() => {
+				if (stats.liveStatus === '3') {
+					socket.emit(`finish-${id}`, {
+						id: id,
+					})
+					reset()
+				} else {
+					socket.emit(`${id}-status`, {
+						livestatus: stats.liveStatus,
+					})
+				}
+			}, 30000)
 
-	useEffect(() => {
-		socket.emit(`${id}-status`, {
-			livestatus: stats.liveStatus,
-		})
+			return () => clearInterval(intervalId)
+		}
 	}, [stats])
 
 	useEffect(() => {
@@ -86,7 +88,7 @@ const Table21 = () => {
 					} else if (data.compId) {
 						setCompId(data.compId)
 					} else if (data.compname) {
-						setOrg(compname)
+						setOrg(data.compname)
 					}
 					break
 				default:
@@ -139,7 +141,7 @@ const Table21 = () => {
 
 	return (
 		<>
-			{isVisible ? (
+			{visible ? (
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					xmlnsXlink='http://www.w3.org/1999/xlink'

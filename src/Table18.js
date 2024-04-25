@@ -42,8 +42,10 @@ const Table18 = () => {
 	useEffect(() => {
 		if (matchId && compId) {
 			const intervalId = setInterval(() => {
-				getStats(matchId, compId)
-				setVisible(true)
+				if (liveStatus != '3') {
+					getStats(matchId, compId)
+					setVisible(true)
+				}
 			}, 30000)
 
 			return () => clearInterval(intervalId)
@@ -51,26 +53,22 @@ const Table18 = () => {
 	}, [compId, matchId])
 
 	useEffect(() => {
-		if (stats) {
-			if (stats.liveStatus === '3') {
-				socket.emit('finish', {
-					id: id,
-				})
-				reset()
-			}
+		if (stats && stats.liveStatus) {
+			const intervalId = setInterval(() => {
+				if (stats.liveStatus === '3') {
+					socket.emit(`finish-${id}`, {
+						id: id,
+					})
+					reset()
+				} else {
+					socket.emit(`${id}-status`, {
+						livestatus: stats.liveStatus,
+					})
+				}
+			}, 30000)
+
+			return () => clearInterval(intervalId)
 		}
-	}, [stats])
-
-	useEffect(() => {
-		socket.emit(`${id}-status`, {
-			livestatus: stats.liveStatus,
-		})
-	}, [stats])
-
-	useEffect(() => {
-		socket.emit(`${id}-status`, {
-			livestatus: stats.liveStatus,
-		})
 	}, [stats])
 
 	useEffect(() => {
@@ -90,7 +88,7 @@ const Table18 = () => {
 					} else if (data.compId) {
 						setCompId(data.compId)
 					} else if (data.compname) {
-						setOrg(compname)
+						setOrg(data.compname)
 					}
 					break
 				default:
@@ -143,7 +141,7 @@ const Table18 = () => {
 
 	return (
 		<>
-			{isVisible ? (
+			{visible ? (
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					xmlnsXlink='http://www.w3.org/1999/xlink'

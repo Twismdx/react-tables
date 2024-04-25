@@ -3,16 +3,16 @@ import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
-const socket = io('https://twism.vercel.app')
+const socket = io()
 
-const Table19 = () => {
+const Table20 = () => {
 	const [org, setOrg] = useState('ko')
 	const [visible, setVisible] = useState(false)
 	const [matchId, setMatchId] = useState(null)
 	const [compId, setCompId] = useState(null)
 	const [stats, setStats] = useState({})
 	let adj = null
-	const id = 19
+	const id = 20
 
 	const reset = () => {
 		setOrg('ko')
@@ -53,20 +53,22 @@ const Table19 = () => {
 	}, [compId, matchId])
 
 	useEffect(() => {
-		if (stats) {
-			if (stats.liveStatus === '3') {
-				socket.emit('finish', {
-					id: id,
-				})
-				reset()
-			}
-		}
-	}, [stats])
+		if (stats && stats.liveStatus) {
+			const intervalId = setInterval(() => {
+				if (stats.liveStatus === '3') {
+					socket.emit(`finish-${id}`, {
+						id: id,
+					})
+					reset()
+				} else {
+					socket.emit(`${id}-status`, {
+						livestatus: stats.liveStatus,
+					})
+				}
+			}, 30000)
 
-	useEffect(() => {
-		socket.emit(`${id}-status`, {
-			livestatus: stats.liveStatus,
-		})
+			return () => clearInterval(intervalId)
+		}
 	}, [stats])
 
 	useEffect(() => {
@@ -86,7 +88,7 @@ const Table19 = () => {
 					} else if (data.compId) {
 						setCompId(data.compId)
 					} else if (data.compname) {
-						setOrg(compname)
+						setOrg(data.compname)
 					}
 					break
 				default:
@@ -139,7 +141,7 @@ const Table19 = () => {
 
 	return (
 		<>
-			{isVisible ? (
+			{visible ? (
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					xmlnsXlink='http://www.w3.org/1999/xlink'
@@ -739,4 +741,4 @@ const Table19 = () => {
 // {stats[0].homeframepointsadj===0 && stats[0].homescorepoints===0 ? stats[0].homescore : `${homeScore}`}
 // {stats[0].homescorepoints>0 ? `${stats[0].homescore}` : ''}
 // {stats[0].awayscorepoints>0 ? `${stats[0].awayscore}` : ''}
-export { Table19 }
+export { Table20 }
