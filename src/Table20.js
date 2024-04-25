@@ -42,7 +42,7 @@ const Table20 = () => {
 	useEffect(() => {
 		if (matchId && compId) {
 			const intervalId = setInterval(() => {
-				if (liveStatus != '3') {
+				if (stats.livestatus != '3') {
 					getStats(matchId, compId)
 					setVisible(true)
 				}
@@ -53,16 +53,16 @@ const Table20 = () => {
 	}, [compId, matchId])
 
 	useEffect(() => {
-		if (stats && stats.liveStatus) {
+		if (stats && stats.livestatus) {
 			const intervalId = setInterval(() => {
-				if (stats.liveStatus === '3') {
+				if (stats.livestatus === '3') {
 					socket.emit(`finish-${id}`, {
 						id: id,
 					})
 					reset()
 				} else {
 					socket.emit(`${id}-status`, {
-						livestatus: stats.liveStatus,
+						livestatus: stats.livestatus,
 					})
 				}
 			}, 30000)
