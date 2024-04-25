@@ -1,16 +1,16 @@
 @font-face {
 	font-family: 'semiBold';
-	src: url('../public/open-sans.semibold.ttf');
+	src: url('../public/OpenSans-Semibold.ttf');
 }
 
 @font-face {
 	font-family: 'extraBold';
-	src: url('../public/open-sans.semibold.ttf');
+	src: url('../public/OpenSans-Semibold.ttf');
 }
 
 @font-face {
 	font-family: 'xxBold';
-	src: url('../public/open-sans.extrabold.ttf');
+	src: url('../public/OpenSans-Semibold.ttf');
 }
 
 .card-main-container {
