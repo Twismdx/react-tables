@@ -3,7 +3,7 @@ import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
-const socket = io()
+const socket = io('https://twism.vercel.app/')
 
 const Table21 = () => {
 	const [org, setOrg] = useState('ko')
