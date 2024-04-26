@@ -12,7 +12,7 @@ const Table21 = () => {
 	const [stats, setStats] = useState({})
 	const id = 21
 
-	const ably = new Ably.Realtime.Promise({ key: 'Yo4kvQ.jqBbLQ:d91k3xHWDPnw7T8kmH5qIMrbsNg75pw0L3CrU_8pFdQ' })
+
 	const channel = ably.channels.get(`table-${id}`)
 
 	const reset = () => {
