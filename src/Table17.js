@@ -22,6 +22,12 @@ const Table17 = () => {
 		adj = null
 	}
 
+	useEffect(() => {
+		if (stats.liveStatus === '3') {
+			reset()
+		}
+	}, [stats])
+
 	async function getStats(match, comp) {
 		try {
 			const response = await axios.post(`https://twism.vercel.app/drid`, null, {
@@ -39,67 +45,28 @@ const Table17 = () => {
 	}
 
 	useEffect(() => {
-		if (matchId && compId) {
-			const intervalId = setInterval(() => {
-				if (stats.livestatus != '3') {
-					getStats(matchId, compId)
-					setVisible(true)
-				}
-			}, 30000)
+		const intervalId = setInterval(() => {
+			getStats(matchId, compId)
+		}, 30000)
+		getStats(matchId, compId)
+		setVisible(true)
 
-			return () => clearInterval(intervalId)
-		}
-	}, [compId, matchId])
+		return () => clearInterval(intervalId)
+	}, [matchId, compId])
 
 	useEffect(() => {
-		if (stats && stats.livestatus) {
-			const intervalId = setInterval(() => {
-				if (stats.livestatus === '3') {
-					socket.emit(`response`, {
-						id: id,
-						response: 'close',
-					})
-					reset()
-				} else {
-					socket.emit(`response`, {
-						id: id,
-						response: 'live',
-					})
-				}
-			}, 30000)
-
-			return () => clearInterval(intervalId)
-		}
-	}, [stats])
-
-	useEffect(() => {
-		socket.emit('register', `Table${id}`)
-
-		const handleAction = (data) => {
-			switch (data.action) {
-				case 'show':
-					setVisible(true)
-					break
-				case 'hide':
-					setVisible(false)
-					break
-				case 'ids':
-					if (data.matchId) {
-						setMatchId(data.matchId)
-						setCompId(data.compId)
-						setOrg(data.compname)
-						setVisible(true)
-					}
-					break
-				default:
-					console.log('Unknown action', data)
-			}
-		}
-
-		socket.on(`action-Table${id}`, handleAction)
+		socket.on(`started-${id}`, (data) => {
+			setCompId(data.compid)
+			setMatchId(data.matchid)
+			if (data.compname === 'superleague') {
+				setOrg('superleague')
+			} else if (data.compname === 'vegasleague') {
+				setOrg('vegasleague')
+			} else setOrg('ko')
+		})
 
 		return () => {
-			socket.off(`action-Table${id}`, handleAction)
+			socket.off(`scoreUpdated-${tableId}`)
 		}
 	}, [])
 
