@@ -66,7 +66,7 @@ const Table21 = () => {
 		})
 
 		return () => {
-			socket.off(`scoreUpdated-${tableId}`)
+			socket.off(`scoreUpdated-${id}`)
 		}
 	}, [])
 
