@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './home.css'
+import io from 'socket.io-client'
 import axios from 'axios'
-import { useChannel } from 'ably/react'
+
+const socket = io('https://twism.vercel.app:4000')
 
 const Table19 = () => {
 	const [org, setOrg] = useState('ko')
@@ -10,9 +12,6 @@ const Table19 = () => {
 	const [compId, setCompId] = useState(null)
 	const [stats, setStats] = useState({})
 	const id = 19
-
-
-
 
 	const reset = () => {
 		setOrg('ko')
@@ -55,17 +54,21 @@ const Table19 = () => {
 		return () => clearInterval(intervalId)
 	}, [matchId, compId])
 
-	const [channel] = useChannel(`start`, (message) => {
-		if (message.name === 'start' && message.data.id === id) {
-			setCompId(message.data.compid)
-			setMatchId(message.data.matchid)
-			if (message.data.compname === 'superleague') {
+	useEffect(() => {
+		socket.on(`started-${id}`, (data) => {
+			setCompId(data.compid)
+			setMatchId(data.matchid)
+			if (data.compname === 'superleague') {
 				setOrg('superleague')
-			} else if (message.data.compname === 'vegasleague') {
+			} else if (data.compname === 'vegasleague') {
 				setOrg('vegasleague')
 			} else setOrg('ko')
+		})
+
+		return () => {
+			socket.off(`scoreUpdated-${id}`)
 		}
-	})
+	}, [])
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
