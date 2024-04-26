@@ -11,13 +11,13 @@ const Table16 = () => {
 	const [stats, setStats] = useState({})
 	const id = 16
 
-	const [channel] = useChannel(`start`, (message) => {
-		if (message.name === 'start' && message.data.id === id) {
-			setCompId(message.data.compid)
-			setMatchId(message.data.matchid)
-			if (message.data.compname === 'superleague') {
+	const { channel } = useChannel(`start`, (data) => {
+		if (data.id === id) {
+			setCompId(data.compid)
+			setMatchId(data.matchid)
+			if (data.compname === 'superleague') {
 				setOrg('superleague')
-			} else if (message.data.compname === 'vegasleague') {
+			} else if (data.compname === 'vegasleague') {
 				setOrg('vegasleague')
 			} else setOrg('ko')
 		}
