@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-
-const socket = io('https://twism.vercel.app:4000/')
+import Ably from 'ably/promises'
 
 const Table16 = () => {
 	const [org, setOrg] = useState('ko')
@@ -12,6 +11,9 @@ const Table16 = () => {
 	const [compId, setCompId] = useState(null)
 	const [stats, setStats] = useState({})
 	const id = 16
+
+	const ably = new Ably.Realtime.Promise({ key: 'Yo4kvQ.jqBbLQ:d91k3xHWDPnw7T8kmH5qIMrbsNg75pw0L3CrU_8pFdQ' })
+	const channel = ably.channels.get(`table-${id}`)
 
 	const reset = () => {
 		setOrg('ko')
@@ -55,18 +57,22 @@ const Table16 = () => {
 	}, [matchId, compId])
 
 	useEffect(() => {
-		socket.on(`started-${id}`, (data) => {
-			setCompId(data.compid)
-			setMatchId(data.matchid)
-			if (data.compname === 'superleague') {
-				setOrg('superleague')
-			} else if (data.compname === 'vegasleague') {
-				setOrg('vegasleague')
-			} else setOrg('ko')
-		})
+		const onStarted = (data) => {
+			if (data.id === id) {
+				setCompId(data.compid)
+				setMatchId(data.matchid)
+				if (data.compname === 'superleague') {
+					setOrg('superleague')
+				} else if (data.compname === 'vegasleague') {
+					setOrg('vegasleague')
+				} else setOrg('ko')
+			}
+		}
+
+		channel.subscribe('start', onStarted)
 
 		return () => {
-			socket.off(`scoreUpdated-${id}`)
+			channel.unsubscribe('start', onStarted)
 		}
 	}, [])
 
