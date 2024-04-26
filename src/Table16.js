@@ -3,7 +3,7 @@ import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
 
-const socket = io('https://localhost:4000')
+const socket = io('http://localhost:4000')
 
 const Table16 = () => {
 	const [org, setOrg] = useState('ko')
@@ -112,7 +112,7 @@ const Table16 = () => {
 
 	return (
 		<>
-			{visible ? (
+			{visible && stats[0] ? (
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					xmlnsXlink='http://www.w3.org/1999/xlink'
