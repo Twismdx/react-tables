@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './home.css'
 import io from 'socket.io-client'
 import axios from 'axios'
-import Ably from 'ably/promises'
+import Ably from 'ably'
 
 const Table18 = () => {
 	const [org, setOrg] = useState('ko')
