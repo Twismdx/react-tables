@@ -14,17 +14,19 @@ const client = new Ably.Realtime({ key: 'Yo4kvQ.jqBbLQ:d91k3xHWDPnw7T8kmH5qIMrbs
 function App() {
   return (
     <AblyProvider client={client}>
-      <Router>
-        <Routes>
-          <Route path="/table16" element={<Table16 />} />
-          <Route path="/table17" element={<Table17 />} />
-          <Route path="/table18" element={<Table18 />} />
-          <Route path="/table19" element={<Table19 />} />
-          <Route path="/table20" element={<Table20 />} />
-          <Route path="/table21" element={<Table21 />} />
-          {/* Add more routes if you have more versions */}
-        </Routes>
-      </Router>
+      <ChannelProvider channelName='start'>
+        <Router>
+          <Routes>
+            <Route path="/table16" element={<Table16 />} />
+            <Route path="/table17" element={<Table17 />} />
+            <Route path="/table18" element={<Table18 />} />
+            <Route path="/table19" element={<Table19 />} />
+            <Route path="/table20" element={<Table20 />} />
+            <Route path="/table21" element={<Table21 />} />
+            {/* Add more routes if you have more versions */}
+          </Routes>
+        </Router>
+      </ChannelProvider>
     </AblyProvider>
   )
 }

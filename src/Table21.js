@@ -13,7 +13,7 @@ const Table21 = () => {
 	const id = 21
 
 
-	const channel = ably.channels.get(`table-${id}`)
+
 
 	const reset = () => {
 		setOrg('ko')
@@ -56,25 +56,17 @@ const Table21 = () => {
 		return () => clearInterval(intervalId)
 	}, [matchId, compId])
 
-	useEffect(() => {
-		const onStarted = (data) => {
-			if (data.id === id) {
-				setCompId(data.compid)
-				setMatchId(data.matchid)
-				if (data.compname === 'superleague') {
-					setOrg('superleague')
-				} else if (data.compname === 'vegasleague') {
-					setOrg('vegasleague')
-				} else setOrg('ko')
-			}
+	const [channel] = useChannel(`start`, (message) => {
+		if (message.name === 'start' && message.data.id === id) {
+			setCompId(message.data.compid)
+			setMatchId(message.data.matchid)
+			if (message.data.compname === 'superleague') {
+				setOrg('superleague')
+			} else if (message.data.compname === 'vegasleague') {
+				setOrg('vegasleague')
+			} else setOrg('ko')
 		}
-
-		channel.subscribe('start', onStarted)
-
-		return () => {
-			channel.unsubscribe('start', onStarted)
-		}
-	}, [])
+	})
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore

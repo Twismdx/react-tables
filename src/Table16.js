@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './home.css'
-import io from 'socket.io-client'
 import axios from 'axios'
-import Ably from 'ably'
 
 const Table16 = () => {
 	const [org, setOrg] = useState('ko')
@@ -12,8 +10,17 @@ const Table16 = () => {
 	const [stats, setStats] = useState({})
 	const id = 16
 
-
-	const channel = ably.channels.get(`table-${id}`)
+	const [channel] = useChannel(`start`, (message) => {
+		if (message.name === 'start' && message.data.id === id) {
+			setCompId(message.data.compid)
+			setMatchId(message.data.matchid)
+			if (message.data.compname === 'superleague') {
+				setOrg('superleague')
+			} else if (message.data.compname === 'vegasleague') {
+				setOrg('vegasleague')
+			} else setOrg('ko')
+		}
+	})
 
 	const reset = () => {
 		setOrg('ko')
@@ -55,26 +62,6 @@ const Table16 = () => {
 
 		return () => clearInterval(intervalId)
 	}, [matchId, compId])
-
-	useEffect(() => {
-		const onStarted = (data) => {
-			if (data.id === id) {
-				setCompId(data.compid)
-				setMatchId(data.matchid)
-				if (data.compname === 'superleague') {
-					setOrg('superleague')
-				} else if (data.compname === 'vegasleague') {
-					setOrg('vegasleague')
-				} else setOrg('ko')
-			}
-		}
-
-		channel.subscribe('start', onStarted)
-
-		return () => {
-			channel.unsubscribe('start', onStarted)
-		}
-	}, [])
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
