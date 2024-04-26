@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './home.css'
 import axios from 'axios'
+import { useChannel } from 'ably/react'
 
 const Table16 = () => {
 	const [org, setOrg] = useState('ko')

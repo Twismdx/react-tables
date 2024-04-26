@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './home.css'
-import io from 'socket.io-client'
 import axios from 'axios'
-import Ably from 'ably'
+import { useChannel } from 'ably/react'
 
 const Table20 = () => {
 	const [org, setOrg] = useState('ko')
