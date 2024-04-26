@@ -4,7 +4,7 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as Ably from 'ably'
-import { AblyProvider } from 'ably/react'
+import { AblyProvider, ChannelProvider } from 'ably/react'
 
 const client = new Ably.Realtime({ key: 'Yo4kvQ.jqBbLQ:d91k3xHWDPnw7T8kmH5qIMrbsNg75pw0L3CrU_8pFdQ', clientId: 'web' })
 
