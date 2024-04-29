@@ -13,6 +13,13 @@
 	src: url('../public/OpenSans-Semibold.ttf');
 }
 
+html,
+body {
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+}
+
 .card-main-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -355,14 +362,11 @@ div.matchIdInput {
 }
 
 .main-container {
-	display: grid;
-	text-align: center;
-	grid-template-columns: 10% 80% 10%;
-	grid-template-rows: 50% 50%;
+	display: flex;
 	justify-content: center;
-	align-items: center;
-	height: 100%;
 	width: 100%;
+	height: 100vh;
+	align-items: flex-end;
 }
 .container-3 {
 	text-align: center;

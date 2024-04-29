@@ -111,14 +111,14 @@ const Table19 = () => {
 	const framesLeft = calculateFrames(adj)
 
 	return (
-		<>
+		<div className="main-container">
 			{visible && stats[0] ? (
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					xmlnsXlink='http://www.w3.org/1999/xlink'
 					width='80vw'
-					height='55vh'
-					viewBox='0 -240 1260 400'
+					height='auto'
+					viewBox='0 0 1260 200'
 				>
 					<defs>
 						<filter
@@ -705,7 +705,7 @@ const Table19 = () => {
 					</g>
 				</svg>
 			) : ''}
-		</>
+		</div>
 	)
 }
 // {stats[0].awayframepointsadj===0 && stats[0].awayscorepoints===0 ? stats[0].awayscore : `${awayScore}`}
