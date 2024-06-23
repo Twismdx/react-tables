@@ -22,20 +22,28 @@ body {
 
 .split {
 	display: flex;
-	height: 100vh;
+	height: 100%;
 	width: 100%;
 }
 
 .split > * {
 	flex: 1;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .left {
-	width: 50vw;
+	width: 50%;
 }
 
 .right {
-	width: 50vw;
+	width: 50%;
+}
+
+svg {
+	max-width: 100%;
+	height: auto;
 }
 
 .card-main-container {
