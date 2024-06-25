@@ -379,12 +379,14 @@ const Table16 = () => {
 								></g>
 							</mask>
 						</defs>
+						
 						<g
 							id='Layer_2'
 							stats-name='Layer 2'
 						>
 							<g id='Container'>
 								<g id='blackBar'>
+
 									<g
 										style={{
 											mask: 'url(#mask)',
@@ -398,6 +400,7 @@ const Table16 = () => {
 										/>
 									</g>
 								</g>
+
 								<g id='redBar'>
 									<g
 										style={{
