@@ -3,7 +3,7 @@ import './home.css'
 import Table1 from './Table1'
 import Table2 from './Table2'
 
-const Split1921 = () => {
+const Split12 = () => {
 
     return (
         <div className='split'>
@@ -17,4 +17,4 @@ const Split1921 = () => {
     )
 }
 
-export default Split1921
+export default Split12

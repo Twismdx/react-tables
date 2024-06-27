@@ -5,13 +5,13 @@ import axios from 'axios'
 
 const socket = io('http://localhost:4000')
 
-const Table21 = () => {
+const Table2 = () => {
 	const [org, setOrg] = useState('ko')
 	const [visible, setVisible] = useState(false)
 	const [matchId, setMatchId] = useState(null)
 	const [compId, setCompId] = useState(null)
 	const [stats, setStats] = useState({})
-	const id = 2		
+	const id = 2
 
 	const reset = () => {
 		setOrg('ko')
@@ -712,4 +712,4 @@ const Table21 = () => {
 // {stats[0].homeframepointsadj===0 && stats[0].homescorepoints===0 ? stats[0].homescore : `${homeScore}`}
 // {stats[0].homescorepoints>0 ? `${stats[0].homescore}` : ''}
 // {stats[0].awayscorepoints>0 ? `${stats[0].awayscore}` : ''}
-export default Table21
+export default Table2

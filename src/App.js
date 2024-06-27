@@ -1,5 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Table1 from './Table1.js'
+import Table2 from './Table2.js'
+import Split12 from './Split1-2.js'
 import Table16 from './Table16.js'
 import Table17 from './Table17.js'
 import Table18 from './Table18.js'
@@ -16,6 +19,9 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/table1" element={<Table1 />} />
+        <Route path="/table2" element={<Table2 />} />
+        <Route path="/split1-2" element={<Split12 />} />
         <Route path="/table16" element={<Table16 />} />
         <Route path="/table17" element={<Table17 />} />
         <Route path="/table18" element={<Table18 />} />

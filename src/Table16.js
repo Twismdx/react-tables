@@ -379,7 +379,7 @@ const Table16 = () => {
 								></g>
 							</mask>
 						</defs>
-						
+
 						<g
 							id='Layer_2'
 							stats-name='Layer 2'
