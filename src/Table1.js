@@ -51,6 +51,7 @@ const Table1 = () => {
 		}, 30000)
 		getStats(matchId, compId)
 		setVisible(true)
+		console.log(matchId)
 
 		return () => clearInterval(intervalId)
 	}, [matchId, compId])
