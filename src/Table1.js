@@ -240,11 +240,7 @@ const Table1 = () => {
 								textAlign: 'center',
 							}}
 						>
-							{org === 'superleague'
-								? calcSuperleagueFrames()
-								: org === 'vegasleague'
-									? { framesLeft }
-									: ''}
+							{stats[0].matchformat}
 						</text>
 						<text
 							textAnchor='left'
@@ -317,7 +313,7 @@ const Table1 = () => {
 							{stats[0].awayteamlabel}
 						</text>
 						<text
-							textAnchor='middle'
+							textAnchor='left'
 							transform='translate(900.61 105)'
 							style={{
 								fontSize: 18,
