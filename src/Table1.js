@@ -232,7 +232,7 @@ const Table1 = () => {
 						</text>
 						<text
 							textAnchor='middle'
-							transform='translate(624 130)'
+							transform='translate(626 128)'
 							fill='black'
 							style={{
 								fontSize: 26,
@@ -314,7 +314,7 @@ const Table1 = () => {
 						</text>
 						<text
 							textAnchor='left'
-							transform='translate(900.61 105)'
+							transform='translate(790 105)'
 							style={{
 								fontSize: 18,
 								fontFamily: 'xxBold',
