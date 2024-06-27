@@ -235,7 +235,7 @@ const Table1 = () => {
 							transform='translate(624 130)'
 							fill='black'
 							style={{
-								fontSize: 33,
+								fontSize: 26,
 								fontFamily: 'semiBold',
 								textAlign: 'center',
 							}}
