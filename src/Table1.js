@@ -33,7 +33,7 @@ const Table1 = () => {
 			const response = await axios.post(`https://twism.vercel.app/abif`, null, {
 				params: {
 					matchid: match,
-					// compid: comp,
+					compid: comp,
 				},
 			})
 
