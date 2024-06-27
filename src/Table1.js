@@ -32,13 +32,14 @@ const Table1 = () => {
 		try {
 			const response = await axios.post(`https://twism.vercel.app/drid`, null, {
 				params: {
-					matchId: match,
-					compId: comp,
+					matchid: match,
+					compid: comp,
 				},
 			})
 
 			const res = Object.keys(response.data).map(key => response.data[key])
 			setStats(res)
+			console.log(match)
 		} catch (err) {
 			console.warn(err)
 		}
@@ -58,6 +59,7 @@ const Table1 = () => {
 		socket.on(`started-${id}`, (data) => {
 			setCompId(data.compid)
 			setMatchId(data.matchid)
+			console.log(data.matchid)
 			if (data.compname === 'superleague') {
 				setOrg('superleague')
 			} else if (data.compname === 'vegasleague') {
@@ -122,7 +124,7 @@ const Table1 = () => {
 					viewBox="0 0 1260 200"
 				>
 					<g id="Layer_1-2">
-						
+
 						<g id="Layer_2-2">
 							<g id="Container">
 								<path
@@ -176,7 +178,7 @@ const Table1 = () => {
 									strokeWidth={0}
 									id="whiteRight"
 								/>
-							</g>	
+							</g>
 						</g>
 						<image
 							width={1921}
