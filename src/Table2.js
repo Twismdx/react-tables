@@ -130,7 +130,7 @@ const Table2 = ({ split }) => {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			axios.get('https://twism.vercel.app/events')
+			axios.get(`https://twism.vercel.app/events?id=${id}`)
 				.then(response => {
 					const data = response.data
 					data.forEach(event => {
