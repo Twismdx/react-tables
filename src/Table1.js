@@ -38,7 +38,7 @@ const Table1 = ({ split }) => {
 				}
 			}
 			getCompData()
-		}, 10000) // 10000ms = 10 seconds
+		}, 15000) // 10000ms = 10 seconds
 
 		return () => clearInterval(interval)
 	}, [compId])

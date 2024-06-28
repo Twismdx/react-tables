@@ -41,7 +41,7 @@ const Table2 = ({ split }) => {
 		}, 15000) // 10000ms = 10 seconds
 
 		return () => clearInterval(interval)
-	}, [id])
+	}, [compId])
 
 	const logos = [
 		'/rotate14.png',
@@ -148,7 +148,7 @@ const Table2 = ({ split }) => {
 				.catch(error => {
 					console.error('Error fetching events:', error)
 				})
-		}, 10000) // 10000ms = 10 seconds
+		}, 15000) // 10000ms = 10 seconds
 
 		return () => clearInterval(interval)
 	}, [id])
