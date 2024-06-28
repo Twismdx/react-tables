@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import './home.css'
-import io from 'socket.io-client'
 import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
 
-const socket = io('https://twism.vercel.app:4000')
-
 const Table1 = ({ split }) => {
+	const [messages, setMessages] = useState([])
 	const [org, setOrg] = useState('ko')
 	const [visible, setVisible] = useState(false)
 	const [matchId, setMatchId] = useState(null)
@@ -138,21 +136,36 @@ const Table1 = ({ split }) => {
 	}, [matchId, compId])
 
 	useEffect(() => {
-		socket.on(`started-${id}`, (data) => {
-			setCompId(data.compid)
-			setMatchId(data.matchid)
-			console.log(data.matchid)
-			if (data.compname === 'superleague') {
-				setOrg('superleague')
-			} else if (data.compname === 'vegasleague') {
-				setOrg('vegasleague')
-			} else setOrg('ko')
-		})
+		const eventSource = new EventSource('/events')
+
+		eventSource.onmessage = function (event) {
+			const data = JSON.parse(event.data)
+
+			if (data.event === 'started' && data.id === id) {
+				setCompId(data.compid)
+				setMatchId(data.matchid)
+				console.log(data.matchid)
+				if (data.compname === 'superleague') {
+					setOrg('superleague')
+				} else if (data.compname === 'vegasleague') {
+					setOrg('vegasleague')
+				} else {
+					setOrg('ko')
+				}
+			}
+
+			setMessages((prevMessages) => [...prevMessages, data])
+		}
+
+		eventSource.onerror = function () {
+			console.error('EventSource failed.')
+			eventSource.close()
+		}
 
 		return () => {
-			socket.off(`scoreUpdated-${id}`)
+			eventSource.close()
 		}
-	}, [])
+	}, [id])
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
