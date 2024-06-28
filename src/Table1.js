@@ -155,7 +155,7 @@ const Table1 = ({ split }) => {
 				.catch(error => {
 					console.error('Error fetching events:', error)
 				})
-		}, 30000) // 10000ms = 10 seconds
+		}, 15000) // 10000ms = 10 seconds
 
 		return () => clearInterval(interval)
 	}, [id])
