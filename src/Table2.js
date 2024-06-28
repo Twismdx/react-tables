@@ -133,6 +133,7 @@ const Table2 = ({ split }) => {
 			axios.get(`https://twism.vercel.app/events`)
 				.then(response => {
 					const data = response.data
+					console.log(data)
 					data.forEach(event => {
 						if (event.event === 'started' && event.id === id) {
 
