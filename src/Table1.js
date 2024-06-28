@@ -140,9 +140,7 @@ const Table1 = ({ split }) => {
 			axios.get(`https://twism.vercel.app/events1`)
 				.then(response => {
 					const data = response.data
-					console.log(data)
-					if (data[0].event === 'started') {
-
+					if (data.length > 0 && data[0].event === 'started') {
 						setCompId(data[0].compid)
 						setMatchId(data[0].matchid)
 						if (data[0].compname === 'superleague') {
