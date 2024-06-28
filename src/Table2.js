@@ -129,7 +129,7 @@ const Table2 = ({ split }) => {
 	}, [matchId, compId])
 
 	useEffect(() => {
-		const eventSource = new EventSource('/events')
+		const eventSource = new EventSource('https://twism.vercel.app/events')
 
 		eventSource.onmessage = function (event) {
 			const data = JSON.parse(event.data)
