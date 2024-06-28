@@ -4,7 +4,7 @@ import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
 import * as Ably from 'ably'
-import { useChannel, usePresence } from 'ably/react'
+import { useChannel, usePresence, useConnectionStateListener } from 'ably/react'
 
 const Table2 = ({ split }) => {
 	const [messages, setMessages] = useState([])
@@ -17,6 +17,10 @@ const Table2 = ({ split }) => {
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = 2
 	const [matchData, setMatchData] = useState([])
+
+	useConnectionStateListener('connected', () => {
+		console.log('Connected to Ably!')
+	});
 
 	const { channel } = useChannel("start", (message) => {
 		const { id, matchid, compid, compname } = message.data
