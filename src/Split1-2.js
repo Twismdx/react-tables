@@ -8,10 +8,10 @@ const Split12 = () => {
     return (
         <div className='split'>
             <div className='left'>
-                <Table1 />
+                <Table1 split={true} />
             </div>
             <div className='right'>
-                <Table2 />
+                <Table2 split={true} />
             </div>
         </div>
     )

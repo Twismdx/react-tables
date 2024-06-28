@@ -20,6 +20,43 @@ body {
 	padding: 0;
 }
 
+.score-ticker {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	background: #f1f1f1;
+	padding: 10px 0;
+}
+
+.ticker-wrap {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  animation: ticker 40s linear infinite;
+}
+
+.ticker {
+  display: inline-block;
+}
+
+.ticker-item {
+  display: inline-block;
+  margin-right: 50px;
+  font-size: 1.2em;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 .split {
 	display: flex;
 	height: 100%;
@@ -33,13 +70,29 @@ body {
     align-items: center;
 }
 
+.logo {
+  position: fixed;
+}
+
+.left-logo {
+  bottom: 15px;
+  left: 15px;
+}
+
+.right-logo {
+  bottom: 15px;
+  right: 15px;
+}
+
 .left {
 	margin-left: 6px;
 	width: 50%;
+	margin-bottom: 25px;
 }
 
 .right {
 	width: 50%;
+	margin-bottom: 25px;
 }
 
 svg {
