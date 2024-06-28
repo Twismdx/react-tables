@@ -19,7 +19,7 @@ const Table2 = ({ split }) => {
 	const [matchData, setMatchData] = useState([])
 
 	useEffect(() => {
-		const ably = new Ably.Realtime.Promise({ key: '9zzpLg.YrD7jw:RCOMB9Lq4mkx0-5Zn99PFY4iKEA1WtvpBWG-5fRkv0M' })
+		const ably = new Ably.Realtime({ key: '9zzpLg.YrD7jw:RCOMB9Lq4mkx0-5Zn99PFY4iKEA1WtvpBWG-5fRkv0M' })
 		const channel = ably.channels.get('start')
 
 		channel.subscribe('start', (message) => {
