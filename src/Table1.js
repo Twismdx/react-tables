@@ -11,7 +11,7 @@ const Table1 = ({ split }) => {
 	const [org, setOrg] = useState('ko')
 	const [visible, setVisible] = useState(false)
 	const [matchId, setMatchId] = useState(null)
-	const [compId, setCompId] = useState('4848')
+	const [compId, setCompId] = useState(null)
 	const [stats, setStats] = useState({})
 	const [leftLogoIndex, setLeftLogoIndex] = useState(0)
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
