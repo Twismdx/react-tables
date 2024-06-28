@@ -23,11 +23,12 @@ const Table2 = ({ split }) => {
 	})
 
 	const { channel } = useChannel("start", (message) => {
-		const { id, matchid, compid, compname } = message.data
-		if (id === tid) {
-			setCompId(compid)
-			setMatchId(matchid)
-		}
+		console.log(message)
+		// const { id, matchid, compid, compname } = message.data
+		// if (id === tid) {
+		// 	setCompId(compid)
+		// 	setMatchId(matchid)
+		// }
 	})
 
 	useEffect(() => {
