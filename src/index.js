@@ -4,18 +4,18 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as Ably from 'ably'
-import { AblyProvider, useChannel, usePresence } from 'ably/react'
+<App />
+import { AblyProvider, ChannelProvider } from 'ably/react'
 
-const client = {
-  key: '9zzpLg.YrD7jw:RCOMB9Lq4mkx0-5Zn99PFY4iKEA1WtvpBWG-5fRkv0M',
-  clientId: 'receiver',
-}
+const client = new Ably.Realtime({ key: '9zzpLg.YrD7jw:RCOMB9Lq4mkx0-5Zn99PFY4iKEA1WtvpBWG-5fRkv0M', clientId: 'receiver' })
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <AblyProvider client={client}>
-      <App />
+      <ChannelProvider channelName="start">
+        <App />
+      </ChannelProvider>
     </AblyProvider>
   </React.StrictMode>
 )
