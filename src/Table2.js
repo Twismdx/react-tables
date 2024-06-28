@@ -20,6 +20,7 @@ const Table2 = ({ split }) => {
 
 	useConnectionStateListener('connected', () => {
 		console.log('Connected to Ably!')
+		notifyController();
 	})
 
 	const { channel } = useChannel("start", (message) => {
@@ -29,6 +30,13 @@ const Table2 = ({ split }) => {
 			setMatchId(matchid)
 		}
 	})
+
+	const notifyController = () => {
+		channel.publish({
+			name: 'componentReady',
+			data: { tid: tid }
+		})
+	};
 
 	channel.subscribe('start', (message) => {
 		const { id, matchid, compid, compname } = message.data
