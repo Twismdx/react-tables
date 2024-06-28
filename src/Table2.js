@@ -104,7 +104,7 @@ const Table2 = ({ split }) => {
 
 	async function getStats(match, comp) {
 		try {
-			const response = await axios.post(`https://twism.vercel.app/drid`, null, {
+			const response = await axios.post(`https://twism.vercel.app/abif`, null, {
 				params: {
 					matchId: match,
 					compId: comp,
