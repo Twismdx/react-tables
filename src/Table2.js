@@ -15,12 +15,12 @@ const Table2 = ({ split }) => {
 	const [stats, setStats] = useState({})
 	const [leftLogoIndex, setLeftLogoIndex] = useState(0)
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
-	const tid = 2
+	const tid = '2'
 	const [matchData, setMatchData] = useState([])
 
 	useConnectionStateListener('connected', () => {
 		console.log('Connected to Ably!')
-	});
+	})
 
 	const { channel } = useChannel("start", (message) => {
 		const { id, matchid, compid, compname } = message.data

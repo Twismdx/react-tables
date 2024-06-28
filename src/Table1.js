@@ -15,7 +15,7 @@ const Table1 = ({ split }) => {
 	const [stats, setStats] = useState({})
 	const [leftLogoIndex, setLeftLogoIndex] = useState(0)
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
-	const tid = 1
+	const tid = '1'
 	const [matchData, setMatchData] = useState([])
 
 	useConnectionStateListener('connected', () => {
