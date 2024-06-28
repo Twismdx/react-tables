@@ -30,6 +30,14 @@ const Table1 = ({ split }) => {
 		}
 	})
 
+	channel.subscribe('start', (message) => {
+		const { id, matchid, compid, compname } = message.data
+		if (id === tid) {
+			setCompId(compid)
+			setMatchId(matchid)
+		}
+	})
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const parseMatches = (data) => {
