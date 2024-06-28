@@ -20,7 +20,7 @@ const Table2 = ({ split }) => {
 
 	useConnectionStateListener('connected', () => {
 		console.log('Connected to Ably!')
-		notifyController();
+		notifyController()
 	})
 
 	const { channel } = useChannel("start", (message) => {
@@ -36,7 +36,7 @@ const Table2 = ({ split }) => {
 			name: 'componentReady',
 			data: { tid: tid }
 		})
-	};
+	}
 
 	channel.subscribe('start', (message) => {
 		const { id, matchid, compid, compname } = message.data
@@ -136,8 +136,8 @@ const Table2 = ({ split }) => {
 		try {
 			const response = await axios.post(`https://twism.vercel.app/abif`, null, {
 				params: {
-					matchId: match,
-					compId: comp,
+					matchid: match,
+					compid: comp,
 				},
 			})
 
