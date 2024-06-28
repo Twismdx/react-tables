@@ -41,7 +41,7 @@ const Table2 = ({ split }) => {
 		}, 15000) // 10000ms = 10 seconds
 
 		return () => clearInterval(interval)
-	}, [compId])
+	}, [id])
 
 	const logos = [
 		'/rotate14.png',
