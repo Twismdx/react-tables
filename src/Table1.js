@@ -18,13 +18,21 @@ const Table1 = ({ split }) => {
 	const tid = 1
 	const [matchData, setMatchData] = useState([])
 
-	const { channel } = useChannel('start', (message) => {
-		const { id, matchid, compid, compname } = message.data
-		if (id === tid) {
-			setCompId(compid)
-			setMatchId(matchid)
+	useEffect(() => {
+		const ably = new Ably.Realtime.Promise({ key: '9zzpLg.YrD7jw:RCOMB9Lq4mkx0-5Zn99PFY4iKEA1WtvpBWG-5fRkv0M' })
+		const channel = ably.channels.get('start')
+
+		channel.subscribe('start', (message) => {
+			const { id, matchid, compid, compname } = message.data
+			if (id === tid) {
+				setCompId(compid)
+				setMatchId(matchid)
+			}
+		})
+		return () => {
+			channel.unsubscribe()
 		}
-	})
+	}, [])
 
 	useEffect(() => {
 		const interval = setInterval(() => {
