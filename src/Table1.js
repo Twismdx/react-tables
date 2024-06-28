@@ -5,7 +5,7 @@ import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
 
-const socket = io('https://twism.vercel.app')
+const socket = io('https://twism.vercel.app:4000')
 
 const Table1 = ({ split }) => {
 	const [org, setOrg] = useState('ko')
