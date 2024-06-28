@@ -162,7 +162,7 @@ const Table1 = ({ split }) => {
 		}, 10000) // 10000ms = 10 seconds
 
 		return () => clearInterval(interval)
-	}, [id]);
+	}, [id])
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
