@@ -133,11 +133,10 @@ const Table2 = ({ split }) => {
 			axios.get(`https://twism.vercel.app/events2`)
 				.then(response => {
 					const data = response.data
-					if (data[0].event === 'started' && data[0].id === id) {
+					if (data[0].event === 'started') {
 
 						setCompId(data[0].compid)
 						setMatchId(data[0].matchid)
-						console.log(data[0].matchid)
 						if (data[0].compname === 'superleague') {
 							setOrg('superleague')
 						} else if (data[0].compname === 'vegasleague') {
