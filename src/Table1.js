@@ -140,6 +140,7 @@ const Table1 = ({ split }) => {
 			axios.get(`https://twism.vercel.app/events`)
 				.then(response => {
 					const data = response.data
+					console.log(data)
 					if (data.event === 'started' && data.id === id) {
 
 						setCompId(data.compid)
