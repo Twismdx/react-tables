@@ -140,23 +140,19 @@ const Table1 = ({ split }) => {
 			axios.get(`https://twism.vercel.app/events`)
 				.then(response => {
 					const data = response.data
-					console.log(data)
-					data.forEach(event => {
-						if (event.event === 'started' && event.id === id) {
+					if (data.event === 'started' && data.id === id) {
 
-							setCompId(event.compid)
-							setMatchId(event.matchid)
-							console.log(event.matchid)
-							if (event.compname === 'superleague') {
-								setOrg('superleague')
-							} else if (event.compname === 'vegasleague') {
-								setOrg('vegasleague')
-							} else {
-								setOrg('ko')
-							}
+						setCompId(data.compid)
+						setMatchId(data.matchid)
+						console.log(data.matchid)
+						if (data.compname === 'superleague') {
+							setOrg('superleague')
+						} else if (data.compname === 'vegasleague') {
+							setOrg('vegasleague')
+						} else {
+							setOrg('ko')
 						}
-						setMessages(prevMessages => [...prevMessages, event])
-					})
+					}
 				})
 				.catch(error => {
 					console.error('Error fetching events:', error)
