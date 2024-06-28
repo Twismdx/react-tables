@@ -22,7 +22,7 @@ function App() {
         <Route path="/table1" element={<Table1 />} />
         <Route path="/table2" element={<Table2 />} />
         <Route path="/split1-2" element={<Split12 />} />
-        <Route path="/table16" element={<Table16 />} />
+        {/* <Route path="/table16" element={<Table16 />} />
         <Route path="/table17" element={<Table17 />} />
         <Route path="/table18" element={<Table18 />} />
         <Route path="/table19" element={<Table19 />} />
@@ -32,7 +32,7 @@ function App() {
         <Route path="/split18-20" element={<Split1820 />} />
         <Route path="/split18-21" element={<Split1821 />} />
         <Route path="/split19-20" element={<Split1920 />} />
-        <Route path="/split19-21" element={<Split1921 />} />
+        <Route path="/split19-21" element={<Split1921 />} /> */}
         {/* Add more routes if you have more versions */}
       </Routes>
     </Router>

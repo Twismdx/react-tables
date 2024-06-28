@@ -3,6 +3,8 @@ import './home.css'
 import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
+import * as Ably from 'ably'
+import { useChannel, usePresence } from 'ably/react'
 
 const Table1 = ({ split }) => {
 	const [messages, setMessages] = useState([])
@@ -13,8 +15,16 @@ const Table1 = ({ split }) => {
 	const [stats, setStats] = useState({})
 	const [leftLogoIndex, setLeftLogoIndex] = useState(0)
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
-	const id = 1
+	const tid = 1
 	const [matchData, setMatchData] = useState([])
+
+	const { channel } = useChannel('start', (message) => {
+		const { id, matchid, compid, compname } = message.data
+		if (id === tid) {
+			setCompId(compid)
+			setMatchId(matchid)
+		}
+	})
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -134,31 +144,6 @@ const Table1 = ({ split }) => {
 
 		return () => clearInterval(intervalId)
 	}, [matchId, compId])
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			axios.get(`https://twism.vercel.app/events1`)
-				.then(response => {
-					const data = response.data
-					if (data.length > 0 && data[0].event === 'started') {
-						setCompId(data[0].compid)
-						setMatchId(data[0].matchid)
-						if (data[0].compname === 'superleague') {
-							setOrg('superleague')
-						} else if (data[0].compname === 'vegasleague') {
-							setOrg('vegasleague')
-						} else {
-							setOrg('ko')
-						}
-					}
-				})
-				.catch(error => {
-					console.error('Error fetching events:', error)
-				})
-		}, 12000) // 10000ms = 10 seconds
-
-		return () => clearInterval(interval)
-	}, [id])
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
