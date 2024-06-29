@@ -101,7 +101,6 @@ const Table1 = ({ split }) => {
 		setMatchId(null)
 		setCompId(null)
 		setStats({})
-		adj = null
 	}
 
 	useEffect(() => {
