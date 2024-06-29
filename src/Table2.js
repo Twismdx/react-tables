@@ -4,7 +4,6 @@ import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
 import { database } from './firebaseConfig'
-import { ref, onValue } from 'firebase/database'
 
 const Table2 = ({ split }) => {
 	const [messages, setMessages] = useState([])
@@ -104,17 +103,16 @@ const Table2 = ({ split }) => {
 	}, [stats])
 
 	useEffect(() => {
-		const statsRef = ref(database, 'table2')
+		const databaseRef = database.ref('table2')
 
-		const unsubscribe = onValue(statsRef, (snapshot) => {
-			const value = snapshot.val()
-			console.log(value)
-			setStats(value)
+		databaseRef.on('value', (snapshot) => {
+			const data = snapshot.val()
+			setStats(data)
+			console.log(data)
 		})
 
-		return () => unsubscribe()
+		return () => databaseRef.off()
 	}, [])
-
 
 	return (
 		<div className="main-container">
