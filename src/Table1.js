@@ -3,8 +3,8 @@ import './home.css'
 import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
-import * as Ably from 'ably'
-import { useChannel, usePresence, useConnectionStateListener } from 'ably/react'
+import { database } from './firebaseConfig'
+import { ref, onValue } from 'firebase/database'
 
 const Table1 = ({ split }) => {
 	const [messages, setMessages] = useState([])
@@ -17,34 +17,6 @@ const Table1 = ({ split }) => {
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = '1'
 	const [matchData, setMatchData] = useState([])
-
-	useConnectionStateListener('connected', () => {
-		console.log('Connected to Ably!')
-		notifyController()
-	})
-
-	const { channel } = useChannel("start", (message) => {
-		const { id, matchid, compid, compname } = message.data
-		if (id === tid) {
-			setCompId(compid)
-			setMatchId(matchid)
-		}
-	})
-
-	const notifyController = () => {
-		channel.publish({
-			name: 'componentReady',
-			data: { tid: tid }
-		})
-	}
-
-	channel.subscribe('start', (message) => {
-		const { id, matchid, compid, compname } = message.data
-		if (id === tid) {
-			setCompId(compid)
-			setMatchId(matchid)
-		}
-	})
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -138,72 +110,17 @@ const Table1 = ({ split }) => {
 		}
 	}, [stats])
 
-	async function getStats(match, comp) {
-		try {
-			const response = await axios.post(`https://twism.vercel.app/abif`, null, {
-				params: {
-					matchid: match,
-					compid: comp,
-				},
-			})
-
-			const res = Object.keys(response.data).map(key => response.data[key])
-			setStats(res)
-		} catch (err) {
-			console.warn(err)
-		}
-	}
-
 	useEffect(() => {
-		const intervalId = setInterval(() => {
-			getStats(matchId, compId)
-		}, 30000)
-		getStats(matchId, compId)
-		setVisible(true)
-		console.log(matchId)
+		const statsRef = ref(database, 'table1')
 
-		return () => clearInterval(intervalId)
-	}, [matchId, compId])
+		const unsubscribe = onValue(statsRef, (snapshot) => {
+			const value = snapshot.val()
+			console.log(value)
+			setStats(value)
+		})
 
-	const calcSuperleagueFrames = () => {
-		const total = stats[0]?.homescore + stats[0]?.awayscore
-		const frames = 36 - total
-
-		return frames
-	}
-
-	const calculateScore = (data, type) => {
-		Object.values(data).reduce(
-			(acc, curr) =>
-				acc +
-				parseInt(curr[`${type}scorepoints`]) +
-				parseInt(curr[`${type}framepointsadj`]),
-			0
-		)
-	}
-
-	let adj = []
-	let homeScore = null
-	let awayScore = null
-
-	if (org === 'vegasleague' && stats && stats.length > 0) {
-		adj = new Array(stats[0])
-
-		homeScore = calculateScore(adj, 'home')
-		awayScore = calculateScore(adj, 'away')
-	}
-
-	const calculateFrames = (data, type) =>
-		Object.values(data).reduce(
-			(acc, curr) =>
-				25 -
-				(acc +
-					parseInt(curr[`homescore`]) +
-					parseInt(curr[`awayscore`])),
-			0
-		)
-
-	const framesLeft = calculateFrames(adj)
+		return () => unsubscribe()
+	}, [])
 
 	return (
 		<div className="main-container">
