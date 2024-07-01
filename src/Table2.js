@@ -104,7 +104,7 @@ const Table2 = ({ split }) => {
 	}, [stats])
 
 	useEffect(() => {
-		const databaseRef = database.ref('table2')
+		const databaseRef = ref(database, 'table2')
 
 		const unsubscribe = onValue(databaseRef, (snapshot) => {
 			const data = snapshot.val()
