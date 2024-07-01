@@ -12,7 +12,7 @@ const Table2 = ({ split }) => {
 	const [visible, setVisible] = useState(false)
 	const [matchId, setMatchId] = useState(null)
 	const [compId, setCompId] = useState(null)
-	const [stats, setStats] = useState({})
+	const [stats, setStats] = useState([])
 	const [leftLogoIndex, setLeftLogoIndex] = useState(0)
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = '2'
@@ -94,7 +94,7 @@ const Table2 = ({ split }) => {
 		setVisible(false)
 		setMatchId(null)
 		setCompId(null)
-		setStats({})
+		setStats([])
 	}
 
 	useEffect(() => {
@@ -119,7 +119,7 @@ const Table2 = ({ split }) => {
 
 	return (
 		<div className="main-container">
-			{visible && stats[0] ? (
+			{visible && stats && stats.length > 0 ? (
 				<>
 					{split ? ('') : (
 						<>
