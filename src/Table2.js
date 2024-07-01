@@ -98,7 +98,7 @@ const Table2 = ({ split }) => {
 	}
 
 	useEffect(() => {
-		if (stats[0]?.liveStatus === '3') {
+		if (stats && stats.length > 0 && stats[0].liveStatus === '3') {
 			reset()
 		}
 	}, [stats])
