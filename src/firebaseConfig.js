@@ -1,5 +1,5 @@
-import firebase from 'firebase/app'
-import 'firebase/database';
+import { initializeApp } from 'firebase/app'
+import { getDatabase } from 'firebase/database'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAEz9Z93s9qaClFqVs0m3sKpJ_Ydy56P98",
@@ -12,10 +12,9 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
-}
+const app = initializeApp(firebaseConfig)
 
-const database = firebase.database()
+// Get a reference to the database service
+const database = getDatabase(app)
 
 export { database }
