@@ -4,7 +4,7 @@ import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
 import { database } from './firebaseConfig'
-import { ref, onValue, off } from 'firebase/database'
+import { ref, remove, onValue, off } from 'firebase/database'
 
 const Table2 = ({ split }) => {
 	const [messages, setMessages] = useState([])
@@ -96,12 +96,6 @@ const Table2 = ({ split }) => {
 		setCompId(null)
 		setStats([])
 	}
-
-	useEffect(() => {
-		if (stats && stats.length > 0 && stats[0].liveStatus === '3') {
-			reset()
-		}
-	}, [stats])
 
 	useEffect(() => {
 		const databaseRef = ref(database, 'table2')

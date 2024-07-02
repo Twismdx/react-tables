@@ -4,7 +4,7 @@ import axios from 'axios'
 import { motion, AnimatePresence } from 'framer-motion'
 import ScoreTicker from './ScoreTicker'
 import { database } from './firebaseConfig'
-import { ref, onValue, off } from 'firebase/database'
+import { ref, remove, onValue, off } from 'firebase/database'
 
 const Table1 = ({ split }) => {
 	const [messages, setMessages] = useState([])
@@ -104,12 +104,6 @@ const Table1 = ({ split }) => {
 	}
 
 	useEffect(() => {
-		if (stats && stats.length > 0 && stats[0].liveStatus === '3') {
-			reset()
-		}
-	}, [stats])
-
-	useEffect(() => {
 		const databaseRef = ref(database, 'table1')
 
 		const unsubscribe = onValue(databaseRef, (snapshot) => {
@@ -120,6 +114,42 @@ const Table1 = ({ split }) => {
 		})
 
 		return () => off(databaseRef, 'value', unsubscribe)
+	}, [])
+
+	useEffect(() => {
+		const databaseRefRemote = ref(database, 'table1/remotestatusid')
+		const databaseRefLive = ref(database, 'table1/livestatus')
+
+		const unsubscribeRemote = onValue(databaseRefRemote, (snapshot) => {
+			const dataRemote = snapshot.val()
+			if (dataRemote !== null) {
+				if (dataRemote === '3' || dataRemote === 3) {
+					reset()
+				}
+			} else {
+				console.log('Remote status ID does not exist. Checking live status.')
+				const unsubscribeLive = onValue(databaseRefLive, (snapshot) => {
+					const dataLive = snapshot.val()
+					if (dataLive !== null) {
+						if (dataLive === '3' || dataLive === 3) {
+							reset()
+						}
+					} else {
+						console.log('Live status does not exist either.')
+					}
+				})
+
+				// Cleanup live status listener if it's created
+				return () => {
+					off(databaseRefLive, 'value', unsubscribeLive)
+				}
+			}
+		})
+
+		// Cleanup remote status listener
+		return () => {
+			off(databaseRefRemote, 'value', unsubscribeRemote)
+		}
 	}, [])
 
 	return (
