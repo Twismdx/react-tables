@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './home.css'
-import io from 'socket.io-client'
+
 import axios from 'axios'
 
-const socket = io('http://localhost:4000')
 
 const Table18 = () => {
 	const [org, setOrg] = useState('ko')
@@ -54,21 +53,7 @@ const Table18 = () => {
 		return () => clearInterval(intervalId)
 	}, [matchId, compId])
 
-	useEffect(() => {
-		socket.on(`started-${id}`, (data) => {
-			setCompId(data.compid)
-			setMatchId(data.matchid)
-			if (data.compname === 'superleague') {
-				setOrg('superleague')
-			} else if (data.compname === 'vegasleague') {
-				setOrg('vegasleague')
-			} else setOrg('ko')
-		})
-
-		return () => {
-			socket.off(`scoreUpdated-${id}`)
-		}
-	}, [])
+	
 
 	const calcSuperleagueFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
