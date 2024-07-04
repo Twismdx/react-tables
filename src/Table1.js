@@ -63,20 +63,20 @@ const Table1 = ({ split }) => {
 	]
 
 	const logoSizes = [
-		{ width: '200px', height: '75px' },
-		{ width: '200px', height: '75px' }, //1
-		{ width: '150px', height: '90px' },
-		{ width: '160px', height: '75px' }, //2
-		{ width: '200px', height: '75px' },
-		{ width: '200px', height: '75px' }, //3
-		{ width: '100px', height: '100px' },
-		{ width: '200px', height: '75px' }, //4
-		{ width: '200px', height: '75px' },
-		{ width: '150px', height: '90px' }, //5
-		{ width: '200px', height: '75px' },
-		{ width: '230px', height: '70px' }, //6
-		{ width: '200px', height: '75px' },
-		{ width: '150px', height: '90px' }  //7
+		{ width: '200px', height: '112px' },
+		{ width: '200px', height: '112px' }, //1
+		{ width: '150px', height: '150px' },
+		{ width: '200px', height: '112px' }, //2
+		{ width: '200px', height: '112px' },
+		{ width: '200px', height: '112px' }, //3
+		{ width: '150px', height: '150px' },
+		{ width: '200px', height: '112px' }, //4
+		{ width: '200px', height: '112px' },
+		{ width: '150px', height: '150px' }, //5
+		{ width: '200px', height: '112px' },
+		{ width: '200px', height: '112px' }, //6
+		{ width: '200px', height: '112px' },
+		{ width: '150px', height: '150px' }  //7
 	]
 
 	const halveSizes = sizes => sizes.map(size => ({
