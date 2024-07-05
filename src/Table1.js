@@ -74,14 +74,14 @@ const Table1 = ({ split }) => {
 		{ width: '200px', height: '112px' },
 		{ width: '150px', height: '150px' }, //5
 		{ width: '200px', height: '112px' },
-		{ width: '200px', height: '112px' }, //6
-		{ width: '200px', height: '112px' },
+		{ width: '200px', height: '132px' }, //6
+		{ width: '200px', height: '125px' },
 		{ width: '150px', height: '150px' }  //7
 	]
 
 	const halveSizes = sizes => sizes.map(size => ({
-		width: `${parseInt(size.width) / 2}px`,
-		height: `${parseInt(size.height) / 2}px`
+		width: `${parseInt(size.width) / 1.5}px`,
+		height: `${parseInt(size.height) / 1.5}px`
 	}))
 
 	const processedLogoSizes = split ? halveSizes(logoSizes) : logoSizes
