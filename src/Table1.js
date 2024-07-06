@@ -409,7 +409,7 @@ const Table1 = ({ split }) => {
 								style={{
 									fontSize: 18,
 									fontFamily: 'xxBold',
-									textAlign: 'center',
+									textAlign: 'right',
 								}}
 							>
 								{stats[0].grade}
