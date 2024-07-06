@@ -17,7 +17,7 @@ const Table1 = ({ split }) => {
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = '1'
 	const [matchData, setMatchData] = useState([])
-	const [ticker, setTicker] = useState({})
+	const [ticker, setTicker] = useState([])
 
 	useEffect(() => {
     const interval = setInterval(() => {
