@@ -67,10 +67,8 @@ const Table1 = ({ split }) => {
 				const url = `${apiUrl}?key=${apiKey}&api=1&ids=${idsParam}`;
 
 				const res = await axios.post(url)
-				const obj = Object.keys(res.data).map(
-					(key) => res.data[key]
-				)
-				const matches = parseMatches(obj);
+				
+				const matches = parseMatches(res.data);
                 setTicker(matches);
             } catch (error) {
                 console.error('Error fetching data:', error);
