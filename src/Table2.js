@@ -367,7 +367,7 @@ const calcTeamFrames = () => {
 								style={{
 									fontSize: 18,
 									fontFamily: 'xxBold',
-									textAlign: 'center',
+									textAlign: 'right',
 								}}
 							>
 								{stats[0].grade}
