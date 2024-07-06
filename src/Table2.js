@@ -362,7 +362,7 @@ const Table2 = ({ split }) => {
 									textAlign: 'center',
 								}}
 							>
-								ls.poolstat.net.au
+								
 							</text>
 						</g>
 					</svg>
