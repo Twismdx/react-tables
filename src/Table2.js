@@ -275,10 +275,9 @@ const calcTeamFrames = () => {
 									textAlign: 'center',
 								}}
 							>
-								{
-                                    stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1'
-                                        ?
-									calcTeamFrames : stats[0].matchformat
+								{(stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1') ?
+									(
+                                        `${calcTeamFrames()} Left` ) : stats[0].matchformat
                                 }
 							</text>
 							<text
