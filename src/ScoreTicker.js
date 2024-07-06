@@ -10,10 +10,11 @@ const ScoreTicker = ({ matches }) => {
                     {matches.map((match, index) => (
                         <div className="ticker-item" key={index}>
                             <span style={{ color: 'black', fontWeight: 'bold' }}>{`${match.home.shortname}`}</span>{'\u00A0'} 
-                            <span style={{ color: 'red' }}>{`${match.home.framescore}`}</span>{'\u00A0'}
+                            <span style={{ color: 'red', fontWeight: 'bold' }}>{`${match.home.framescore}`}</span>{'\u00A0'}
                             {' - '}
-                            <span style={{ color: 'black', fontWeight: 'bold' }}>{`${match.away.shortname}`}</span>{'\u00A0'}
-                            <span style={{ color: 'blue' }}>{`${match.away.framescore}`}</span>
+                            <span style={{ color: 'blue', fontWeight: 'bold' }}>{`${match.away.framescore}`}</span>{'\u00A0'}
+                            <span style={{ color: 'black', fontWeight: 'bold' }}>{`${match.away.shortname}`}</span>
+                           
                         </div>
                     ))}
                 </div>
