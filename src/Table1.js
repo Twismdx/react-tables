@@ -69,8 +69,8 @@ const Table1 = ({ split }) => {
 				const res = await axios.post(url)
 				
 				// Transform the response into an array of matches
-const transformedMatches = Object.keys(response).map(key => {
-    const match = response[key];
+const transformedMatches = Object.keys(res).map(key => {
+    const match = res[key];
     return {
         home: {
             teamname: match.hometeamlabel,
