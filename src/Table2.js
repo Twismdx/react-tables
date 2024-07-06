@@ -370,7 +370,7 @@ const calcTeamFrames = () => {
 									textAlign: 'center',
 								}}
 							>
-								
+								{stats[0].grade}
 							</text>
 						</g>
 					</svg>
