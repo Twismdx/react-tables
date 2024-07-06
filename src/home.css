@@ -46,6 +46,7 @@ body {
   display: inline-block;
   margin-right: 50px;
   font-size: 1.2em;
+  color: 'black';
 }
 
 @keyframes ticker {
