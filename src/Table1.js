@@ -68,8 +68,23 @@ const Table1 = ({ split }) => {
 
 				const res = await axios.post(url)
 				
-				const matches = parseMatches(res.data);
-                setTicker(matches);
+				const transformedMatches = Object.keys(res).map(key => {
+					const match = res[key];
+					return {
+						home: {
+							teamname: match.hometeamlabel,
+							teamshortname: match.homeshortlabel,
+						},
+						away: {
+							teamname: match.awayteamlabel,
+							teamshortname: match.awayshortlabel,
+						},
+						homescore: match.homescore,
+						awayscore: match.awayscore,
+					};
+				});
+				
+                setTicker(transformedMatches);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
