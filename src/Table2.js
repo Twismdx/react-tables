@@ -18,30 +18,29 @@ const Table2 = ({ split }) => {
 	const tid = '2'
 	const [matchData, setMatchData] = useState([])
 
-	useEffect(() => {
-		const interval = setInterval(() => {
-			const parseMatches = (data) => {
-				
-				return Object.values(data?.matches).map(match => ({
-					home: match.home,
-					away: match.away,
-				}))
-			}
+	 useEffect(() => {
+    const interval = setInterval(() => {
+      const parseMatches = (data) => {
+        return Object.values(data?.matches || {}).map(match => ({
+          home: match.home,
+          away: match.away,
+        }));
+      };
 
-			async function getCompData() {
-				try {
-					const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64')
-					const matches = parseMatches(response.data)
-					setMatchData(matches)
-				} catch (error) {
-					console.error('Error fetching data:', error)
-				}
-			}
-			getCompData()
-		}, 15000) // 10000ms = 10 seconds
+      async function getCompData() {
+        try {
+          const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
+          const matches = parseMatches(response.data[5490]); // Access the specific competition data
+          setMatchData(matches);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+      getCompData();
+    }, 15000); // 15000ms = 15 seconds
 
-		return () => clearInterval(interval)
-	}, [compId])
+    return () => clearInterval(interval);
+  }, [compId]);
 
 	const logos = [
 		'/rotate14.png',
