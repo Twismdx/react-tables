@@ -9,7 +9,7 @@ const ScoreTicker = ({ matches }) => {
                 <div className="ticker">
                     {matches.map((match, index) => (
                         <div className="ticker-item" key={index}>
-                            {`${match.home.teamname} ${match.homescore} - ${match.awayscore} ${match.away.teamname}`}
+                            {`${match.home.shortname} ${match.home.framescore} - ${match.away.framescore} ${match.away.shortname}`}
                         </div>
                     ))}
                 </div>
@@ -23,14 +23,14 @@ ScoreTicker.propTypes = {
         PropTypes.shape({
             home: PropTypes.shape({
                 teamname: PropTypes.string.isRequired,
-                teamshortname: PropTypes.string.isRequired,
+                shortname: PropTypes.string.isRequired,
+                framescore: PropTypes.number.isRequired,
             }).isRequired,
             away: PropTypes.shape({
                 teamname: PropTypes.string.isRequired,
-                teamshortname: PropTypes.string.isRequired,
+                shortname: PropTypes.string.isRequired,
+                framescore: PropTypes.number.isRequired,
             }).isRequired,
-            homescore: PropTypes.number.isRequired,
-            awayscore: PropTypes.number.isRequired,
         })
     ).isRequired,
 };

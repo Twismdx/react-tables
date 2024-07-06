@@ -68,21 +68,23 @@ const Table1 = ({ split }) => {
 
 				const res = await axios.post(url)
 				
-				const transformedMatches = Object.keys(res).map(key => {
-					const match = res[key];
-					return {
-						home: {
-							teamname: match.hometeamlabel,
-							teamshortname: match.homeshortlabel,
-						},
-						away: {
-							teamname: match.awayteamlabel,
-							teamshortname: match.awayshortlabel,
-						},
-						homescore: match.homescore,
-						awayscore: match.awayscore,
-					};
-				});
+				// Transform the response into an array of matches
+const transformedMatches = Object.keys(response).map(key => {
+    const match = response[key];
+    return {
+        home: {
+            teamname: match.hometeamlabel,
+            shortname: match.homeshortlabel,
+            framescore: match.homescore,
+        },
+        away: {
+            teamname: match.awayteamlabel,
+            shortname: match.awayshortlabel,
+            framescore: match.awayscore,
+        },
+    };
+});
+
 				
                 setTicker(transformedMatches);
             } catch (error) {
