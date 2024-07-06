@@ -4,9 +4,7 @@ import './home.css'
 
 const ScoreTicker = ({ matches }) => {
 
-    useEffect(() => {
-        console.log(matches)
-    }, [matches])
+    
     
     return (
         <div className="score-ticker">
