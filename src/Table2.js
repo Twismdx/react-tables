@@ -110,6 +110,14 @@ const Table2 = ({ split }) => {
 		return () => off(databaseRef, 'value', unsubscribe)
 	}, [])
 
+const calcTeamFrames = () => {
+		const total = stats[0]?.homescore + stats[0]?.awayscore
+		const frames = 15 - total
+
+		return frames
+	}
+
+
 
 	return (
 		<div className="main-container">
@@ -270,7 +278,8 @@ const Table2 = ({ split }) => {
 									textAlign: 'center',
 								}}
 							>
-								{stats[0].matchformat}
+								{(stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1') ?
+									{calcTeamFrames} : {stats[0].matchformat}}
 							</text>
 							<text
 								textAnchor='left'
