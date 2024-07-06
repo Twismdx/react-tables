@@ -21,10 +21,8 @@ const Table1 = ({ split }) => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const parseMatches = (data) => {
-				if (!data || !data[compId] || !data[compId].matches) {
-					return []
-				}
-				return Object.values(data[compId].matches).map(match => ({
+			
+				return Object.values(data?[compId].matches).map(match => ({
 					home: match.home,
 					away: match.away,
 				}))
