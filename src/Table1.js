@@ -17,7 +17,7 @@ const Table1 = ({ split }) => {
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = '1'
 	const [matchData, setMatchData] = useState([])
-	const [ticker, setTicker] = useState([])
+	const [ticker, setTicker] = useState({})
 
 	useEffect(() => {
     const interval = setInterval(() => {
@@ -78,7 +78,7 @@ const Table1 = ({ split }) => {
         }
         getCompData();
 
-    }, 15000); // 15000ms = 15 seconds
+    }, 30000); // 30000ms = 30 seconds
 
     return () => clearInterval(interval);
 }, [compId]);
@@ -208,7 +208,7 @@ let matchIds = [];
 		<div className="main-container">
 			{visible && stats && stats.length > 0 ? (
 				<>
-					<ScoreTicker matches={matchData} />
+					<ScoreTicker matches={ticker} />
 					<AnimatePresence mode='wait'>
 						<motion.img
 							key={leftLogoIndex}
