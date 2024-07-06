@@ -17,6 +17,7 @@ const Table1 = ({ split }) => {
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = '1'
 	const [matchData, setMatchData] = useState([])
+	const [ticker, setTicker] = useState([])
 
 	useEffect(() => {
     const interval = setInterval(() => {
@@ -43,6 +44,34 @@ const Table1 = ({ split }) => {
                 const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
                 const matches = parseMatches(response.data);
                 setMatchData(matches);
+				for (const key in matches) {
+					if (matches.hasOwnProperty(key)) {
+						const matches = matches[key].matches;
+				
+						// Iterate over each match in the matches object
+						for (const matchId in matches) {
+							if (matches.hasOwnProperty(matchId)) {
+								const match = matches[matchId];
+				
+								// Check if livestatus is not equal to "3"
+								if (match.home.livestatus !== "3" || match.away.livestatus !== "3") {
+									matchIds.push(matchId);
+								}
+							}
+						}
+					}
+				}
+
+				const apiKey = "btp53VGmWzac8UXGJ_UmLW0YAVcy95Xl";
+				const apiUrl = "https://www.poolstat.net.au/livestream/multimatch";
+				const idsParam = matchIds.join(",");
+
+				const url = `${apiUrl}?key=${apiKey}&api=1&ids=${idsParam}`;
+
+				const res = await axios.post(url)
+				setTicker(res.data)
+				console.log(res.data)
+				console.log("POST URL:", url);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -53,6 +82,11 @@ const Table1 = ({ split }) => {
 
     return () => clearInterval(interval);
 }, [compId]);
+
+let matchIds = [];
+
+// Iterate over each top-level object (e.g., "5490", "5500", etc.)
+
 
 
 
