@@ -44,9 +44,9 @@ const Table1 = ({ split }) => {
                 const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
                 const matches = parseMatches(response.data);
                 setMatchData(matches);
-				for (const key in matches) {
-					if (matches.hasOwnProperty(key)) {
-						const matches = matches[key].matches;
+				for (const key in response.data) {
+					if (response.data.hasOwnProperty(key)) {
+						const matches = response.data[key].matches;
 				
 						// Iterate over each match in the matches object
 						for (const matchId in matches) {
