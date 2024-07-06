@@ -412,7 +412,7 @@ const Table1 = ({ split }) => {
 									textAlign: 'center',
 								}}
 							>
-								
+								{stats[0].grade}
 							</text>
 						</g>
 					</svg>
