@@ -19,29 +19,34 @@ const Table1 = ({ split }) => {
 	const [matchData, setMatchData] = useState([])
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			const parseMatches = (data) => {
-			
-				return Object.values(data?.matches).map(match => ({
-					home: match.home,
-					away: match.away,
-				}))
-			}
+    const interval = setInterval(() => {
+      const parseMatches = (data) => {
+        let allMatches = [];
+        Object.values(data).forEach(comp => {
+          const matches = Object.values(comp?.matches || {}).map(match => ({
+            home: match.home,
+            away: match.away,
+          }));
+          allMatches = allMatches.concat(matches);
+        });
+        return allMatches;
+      };
 
-			async function getCompData() {
-				try {
-					const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64')
-					const matches = parseMatches(response.data)
-					setMatchData(matches)
-				} catch (error) {
-					console.error('Error fetching data:', error)
-				}
-			}
-			getCompData()
-		}, 15000) // 10000ms = 10 seconds
+      async function getCompData() {
+        try {
+          const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
+          const matches = parseMatches(response.data);
+          setMatchData(matches);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+      getCompData();
+    }, 15000); // 15000ms = 15 seconds
 
-		return () => clearInterval(interval)
-	}, [compId])
+    return () => clearInterval(interval);
+  }, [compId]);
+
 
 	const logos = [
 		'/rotate1.png',
@@ -312,11 +317,8 @@ const Table1 = ({ split }) => {
 									textAlign: 'center',
 								}}
 							>
-								{
-                                    stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1'
-                                        ?
-									calcTeamFrames : stats[0].matchformat
-                                }
+								{(stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1') ?
+									{calcTeamFrames} : {stats[0].matchformat}}
 							</text>
 							<text
 								textAnchor='left'
