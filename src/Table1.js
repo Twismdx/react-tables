@@ -69,7 +69,10 @@ const Table1 = ({ split }) => {
 				const url = `${apiUrl}?key=${apiKey}&api=1&ids=${idsParam}`;
 
 				const res = await axios.post(url)
-				setTicker(res.data)
+				const obj = Object.keys(response.data).map(
+					(key) => response.data[key]
+				)
+				setTicker(obj)
 				console.log(res.data)
 				console.log("POST URL:", url);
             } catch (error) {
