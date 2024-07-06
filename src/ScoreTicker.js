@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './home.css'
 
 const ScoreTicker = ({ matches }) => {
+
+    useEffect(() => {
+        console.log(matches)
+    }, [matches])
+    
     return (
         <div className="score-ticker">
             <div className="ticker-wrap">
                 <div className="ticker">
                     {matches.map((match, index) => (
                         <div className="ticker-item" key={index}>
-                            {`${match.home.teamname} ${match.home.framescore} - ${match.away.framescore} ${match.away.teamname}`}
+                            {`${match.home.shortname} ${match.home.framescore} - ${match.away.framescore} ${match.away.shortname}`}
                         </div>
                     ))}
                 </div>
