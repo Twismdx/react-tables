@@ -405,7 +405,7 @@ const Table1 = ({ split }) => {
 							</text>
 							<text
 								textAnchor='right'
-								transform='translate(310 105)'
+								transform='translate(360 105)'
 								style={{
 									fontSize: 18,
 									fontFamily: 'xxBold',
