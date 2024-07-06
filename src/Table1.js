@@ -317,8 +317,11 @@ const Table1 = ({ split }) => {
 									textAlign: 'center',
 								}}
 							>
-								{(stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1') ?
-									{calcTeamFrames} : {stats[0].matchformat}}
+								{
+                                    stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1'
+                                        ?
+									calcTeamFrames : stats[0].matchformat
+                                }
 							</text>
 							<text
 								textAnchor='left'
