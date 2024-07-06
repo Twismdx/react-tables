@@ -22,7 +22,7 @@ const Table2 = ({ split }) => {
 		const interval = setInterval(() => {
 			const parseMatches = (data) => {
 				
-				return Object.values(data?[compId].matches).map(match => ({
+				return Object.values(data?.matches).map(match => ({
 					home: match.home,
 					away: match.away,
 				}))
