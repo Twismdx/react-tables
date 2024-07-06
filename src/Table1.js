@@ -42,8 +42,6 @@ const Table1 = ({ split }) => {
         async function getCompData() {
             try {
                 const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
-                const matches = parseMatches(response.data);
-                setMatchData(matches);
 				for (const key in response.data) {
 					if (response.data.hasOwnProperty(key)) {
 						const matches = response.data[key].matches;
@@ -69,12 +67,11 @@ const Table1 = ({ split }) => {
 				const url = `${apiUrl}?key=${apiKey}&api=1&ids=${idsParam}`;
 
 				const res = await axios.post(url)
-				const obj = Object.keys(response.data).map(
-					(key) => response.data[key]
+				const obj = Object.keys(res.data).map(
+					(key) => res.data[key]
 				)
-				setTicker(obj)
-				console.log(res.data)
-				console.log("POST URL:", url);
+				const matches = parseMatches(obj);
+                setTicker(matches);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
