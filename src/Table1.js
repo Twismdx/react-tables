@@ -51,7 +51,10 @@ const Table1 = ({ split }) => {
 							if (matches.hasOwnProperty(matchId)) {
 								const match = matches[matchId];
 				
+<<<<<<< HEAD
 								// Check if livestatus is not equal to "3"
+=======
+>>>>>>> 15364daace5f39fdb151f17c7495e55106040da2
 								if ((match.home.livestatus !== "3" || match.away.livestatus !== "3") && 
                             (match.home.framescore !== 0 || match.away.framescore !== 0)) {
                             matchIds.push(matchId);
@@ -74,14 +77,12 @@ const transformedMatches = Object.keys(res.data).map(key => {
     const match = res.data[key];
     return {
         home: {
-            teamname: match.hometeamlabel,
-            shortname: match.homeshortlabel,
-            framescore: match.homescore,
+            teamname: match.home.teamname,
+            framescore: match.home.framescore,
         },
         away: {
-            teamname: match.awayteamlabel,
-            shortname: match.awayshortlabel,
-            framescore: match.awayscore,
+            teamname: match.away.teamname,
+            framescore: match.away.framescore,
         },
     };
 });

@@ -17,46 +17,49 @@ const Table2 = ({ split }) => {
 	const [rightLogoIndex, setRightLogoIndex] = useState(1)
 	const tid = '2'
 	const [matchData, setMatchData] = useState([])
+	const [ticker, setTicker] = useState([])
 
-	 useEffect(() => {
+	useEffect(() => {
     const interval = setInterval(() => {
-      const parseMatches = (data) => {
-        return Object.values(data?.matches || {}).map(match => ({
-          home: match.home,
-          away: match.away,
-        }));
-      };
+        const parseMatches = (data) => {
+            let allMatches = [];
+            Object.values(data).forEach(comp => {
+                const matches = Object.values(comp?.matches || {}).map(match => {
+                    // Check if llivestatus is not '3'
+                    if (match?.stats?.[0]?.home?.llivestatus !== '3') {
+                        return {
+                            home: match.home,
+                            away: match.away,
+                        };
+                    }
+                    return null;
+                }).filter(match => match !== null); // Filter out null matches
+                allMatches = allMatches.concat(matches);
+            });
+            return allMatches;
 
-      async function getCompData() {
-        try {
-          const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
-          const matches = parseMatches(response.data[5490]); // Access the specific competition data
-          setMatchData(matches);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      }
-      getCompData();
-    }, 15000); // 15000ms = 15 seconds
+let matchIds = [];
 
-    return () => clearInterval(interval);
-  }, [compId]);
+// Iterate over each top-level object (e.g., "5490", "5500", etc.)
+
+
+
 
 	const logos = [
-		'/rotate14.png',
-		'/rotate13.png',
-		'/rotate12.png',
-		'/rotate11.png',
-		'/rotate10.png',
-		'/rotate9.png',
-		'/rotate8.png',
-		'/rotate7.png',
-		'/rotate6.png',
-		'/rotate5.png',
-		'/rotate4.png',
-		'/rotate3.png',
+		'/rotate1.png',
 		'/rotate2.png',
-		'/rotate1.png'
+		'/rotate3.png',
+		'/rotate4.png',
+		'/rotate5.png',
+		'/rotate6.png',
+		'/rotate7.png',
+		'/rotate8.png',
+		'/rotate9.png',
+		'/rotate10.png',
+		'/rotate11.png',
+		'/rotate12.png',
+		'/rotate13.png',
+		'/rotate14.png'
 	]
 
 	const logoSizes = [
@@ -76,6 +79,13 @@ const Table2 = ({ split }) => {
 		{ width: '150px', height: '150px' }  //7
 	]
 
+	const halveSizes = sizes => sizes.map(size => ({
+		width: `${parseInt(size.width) / 1.5}px`,
+		height: `${parseInt(size.height) / 1.5}px`
+	}))
+
+	const processedLogoSizes = split ? halveSizes(logoSizes) : logoSizes
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setLeftLogoIndex(prevIndex => (prevIndex + 2) % logos.length)
@@ -84,7 +94,6 @@ const Table2 = ({ split }) => {
 
 		return () => clearInterval(interval)
 	}, [])
-
 
 	const reset = () => {
 		setOrg('ko')
@@ -107,50 +116,80 @@ const Table2 = ({ split }) => {
 		return () => off(databaseRef, 'value', unsubscribe)
 	}, [])
 
-const calcTeamFrames = () => {
+	useEffect(() => {
+		const databaseRefRemote = ref(database, 'table2/remotestatusid')
+		const databaseRefLive = ref(database, 'table2/livestatus')
+
+		const unsubscribeRemote = onValue(databaseRefRemote, (snapshot) => {
+			const dataRemote = snapshot.val()
+			if (dataRemote !== null) {
+				if (dataRemote === '3' || dataRemote === 3) {
+					reset()
+				}
+			} else {
+				console.log('Remote status ID does not exist. Checking live status.')
+				const unsubscribeLive = onValue(databaseRefLive, (snapshot) => {
+					const dataLive = snapshot.val()
+					if (dataLive !== null) {
+						if (dataLive === '3' || dataLive === 3) {
+							reset()
+						}
+					} else {
+						console.log('Live status does not exist either.')
+					}
+				})
+
+				// Cleanup live status listener if it's created
+				return () => {
+					off(databaseRefLive, 'value', unsubscribeLive)
+				}
+			}
+		})
+
+		// Cleanup remote status listener
+		return () => {
+			off(databaseRefRemote, 'value', unsubscribeRemote)
+		}
+	}, [])
+
+	const calcTeamFrames = () => {
 		const total = stats[0]?.homescore + stats[0]?.awayscore
-		const frames = 15 - total
+		const frames = 25 - total
 
 		return frames
 	}
-
-
 
 	return (
 		<div className="main-container">
 			{visible && stats && stats.length > 0 ? (
 				<>
-					{split ? ('') : (
-						<>
-							<ScoreTicker matches={matchData} />
-							<AnimatePresence mode='wait'>
-								<motion.img
-									key={leftLogoIndex}
-									src={logos[leftLogoIndex]}
-									alt="Left Logo"
-									className="logo left-logo"
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-									transition={{ duration: 1 }}
-									style={logoSizes[leftLogoIndex]}
-								/>
-							</AnimatePresence>
-							<AnimatePresence mode='wait'>
-								<motion.img
-									key={rightLogoIndex}
-									src={logos[rightLogoIndex]}
-									alt="Right Logo"
-									className="logo right-logo"
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-									transition={{ duration: 1 }}
-									style={logoSizes[rightLogoIndex]}
-								/>
-							</AnimatePresence>
-						</>
-					)}
+					<ScoreTicker matches={ticker} />
+					<AnimatePresence mode='wait'>
+						<motion.img
+							key={leftLogoIndex}
+							src={logos[leftLogoIndex]}
+							alt="Left Logo"
+							className="logo left-logo"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 1 }}
+							style={processedLogoSizes[leftLogoIndex]}
+						/>
+					</AnimatePresence>
+					<AnimatePresence mode='wait'>
+						<motion.img
+							key={rightLogoIndex}
+							src={logos[rightLogoIndex]}
+							alt="Right Logo"
+							className="logo right-logo"
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 1 }}
+							style={processedLogoSizes[rightLogoIndex]}
+						/>
+					</AnimatePresence>
 					<svg
 						id="Layer_2"
 						xmlns="http://www.w3.org/2000/svg"
@@ -275,7 +314,7 @@ const calcTeamFrames = () => {
 									textAlign: 'center',
 								}}
 							>
-								{(stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1') ?
+				{(stats[0].matchformat === 'Play 0' || stats[0].matchformat === 'Play 1') ?
 									(
                                         `${calcTeamFrames()} Left` ) : stats[0].matchformat
                                 }
@@ -379,8 +418,4 @@ const calcTeamFrames = () => {
 		</div>
 	)
 }
-// {stats[0].awayframepointsadj===0 && stats[0].awayscorepoints===0 ? stats[0].awayscore : `${awayScore}`}
-// {stats[0].homeframepointsadj===0 && stats[0].homescorepoints===0 ? stats[0].homescore : `${homeScore}`}
-// {stats[0].homescorepoints>0 ? `${stats[0].homescore}` : ''}
-// {stats[0].awayscorepoints>0 ? `${stats[0].awayscore}` : ''}
 export default Table2
