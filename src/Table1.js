@@ -52,9 +52,10 @@ const Table1 = ({ split }) => {
 								const match = matches[matchId];
 				
 								// Check if livestatus is not equal to "3"
-								if (match.home.livestatus !== "3" || match.away.livestatus !== "3") {
-									matchIds.push(matchId);
-								}
+								if ((match.home.livestatus !== "3" || match.away.livestatus !== "3") && 
+                            (match.home.framescore !== 0 || match.away.framescore !== 0)) {
+                            matchIds.push(matchId);
+                        }
 							}
 						}
 					}
