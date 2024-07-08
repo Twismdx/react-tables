@@ -37,66 +37,6 @@ const Table2 = ({ split }) => {
                 allMatches = allMatches.concat(matches);
             });
             return allMatches;
-        };
-
-        async function getCompData() {
-            try {
-                const response = await axios.post('https://twism.vercel.app/compstoday?orgid=64');
-				for (const key in response.data) {
-					if (response.data.hasOwnProperty(key)) {
-						const matches = response.data[key].matches;
-				
-						// Iterate over each match in the matches object
-						for (const matchId in matches) {
-							if (matches.hasOwnProperty(matchId)) {
-								const match = matches[matchId];
-				
-								// Check if livestatus is not equal to "3"
-								if (match.home.livestatus !== "3" || match.away.livestatus !== "3") {
-									matchIds.push(matchId);
-								}
-							}
-						}
-					}
-				}
-
-				const apiKey = "btp53VGmWzac8UXGJ_UmLW0YAVcy95Xl";
-				const apiUrl = "https://www.poolstat.net.au/livestream/multimatch";
-				const idsParam = matchIds.join(",");
-
-				const url = `${apiUrl}?key=${apiKey}&api=1&ids=${idsParam}`;
-
-				const res = await axios.post(url)
-				
-				// Transform the response into an array of matches
-const transformedMatches = Object.keys(res.data).map(key => {
-    const match = res.data[key];
-    return {
-        home: {
-            teamname: match.hometeamlabel,
-            shortname: match.homeshortlabel,
-            framescore: match.homescore,
-        },
-        away: {
-            teamname: match.awayteamlabel,
-            shortname: match.awayshortlabel,
-            framescore: match.awayscore,
-        },
-    };
-});
-
-				
-                setTicker(transformedMatches);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-        getCompData();
-
-    }, 30000); // 30000ms = 30 seconds
-
-    return () => clearInterval(interval);
-}, [compId]);
 
 let matchIds = [];
 
