@@ -37,6 +37,11 @@ const Table2 = ({ split }) => {
                 allMatches = allMatches.concat(matches);
             });
             return allMatches;
+		}
+	}, 30000)
+
+	return () => clearInterval(interval)
+	}, [compId])
 
 let matchIds = [];
 
