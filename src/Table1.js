@@ -19,15 +19,22 @@ const Table1 = ({ split }) => {
 	const [matchData, setMatchData] = useState([])
 	const [ticker, setTicker] = useState([])
 	const [textLength, setTextLength] = useState(null);
+	const [textLength2, setTextLength2] = useState(null);
 	const maxLength = 350;
 
 	useEffect(() => {
 		// Function to calculate text length
 		const calculateTextLength = () => {
-		  const svgText = document.getElementById('dynamicText');
+		  const svgText = document.getElementById('awayteamlabel');
 		  if (svgText) {
 			const computedLength = svgText.getComputedTextLength();
 			setTextLength(computedLength > maxLength ? maxLength : null);
+		  }
+
+		const svgText2 = document.getElementById('hometeamlabel');
+		  if (svgText2) {
+			const computedLength = svgText2.getComputedTextLength();
+			setTextLength2(computedLength > maxLength ? maxLength : null);
 		  }
 		};
 
@@ -443,6 +450,7 @@ let matchIds = [];
 								{stats[0].awayscore}
 							</text>
 							<text
+								id='hometeamlabel'
 								textAnchor='middle'
 								transform='translate(190 64)'
 								fill='white'
@@ -457,6 +465,7 @@ let matchIds = [];
 								{stats[0].hometeamlabel}
 							</text>
 							<text
+								id='awayteamlabel'
 								textAnchor='middle'
 								transform='translate(1060 64)'
 								fill='white'
