@@ -22,28 +22,19 @@ const Table2 = ({ split }) => {
 	const [textLength2, setTextLength2] = useState(null);
 	const maxLength = 350;
 
-	useEffect(() => {
-		// Function to calculate text length
-		const calculateTextLength = () => {
-		  const svgText = document.getElementById('awayteamlabel');
-		  if (svgText) {
-			const computedLength = svgText.getComputedTextLength();
-			setTextLength(computedLength > maxLength ? maxLength : null);
-		  }
-
+	const calculateTextLength = () => {
+		const svgText = document.getElementById('awayteamlabel');
+		if (svgText) {
+		  const computedLength = svgText.getComputedTextLength();
+		  setTextLength(computedLength > maxLength ? maxLength : null);
+		}
+	
 		const svgText2 = document.getElementById('hometeamlabel');
-		  if (svgText2) {
-			const computedLength = svgText2.getComputedTextLength();
-			setTextLength2(computedLength > maxLength ? maxLength : null);
-		  }
-		};
-
-		calculateTextLength();
-
-    // Call calculateTextLength whenever text changes
-    window.addEventListener('resize', calculateTextLength);
-    return () => window.removeEventListener('resize', calculateTextLength);
-  }, [stats]);
+		if (svgText2) {
+		  const computedLength = svgText2.getComputedTextLength();
+		  setTextLength2(computedLength > maxLength ? maxLength : null);
+		}
+	  };
 
 	useEffect(() => {
     const interval = setInterval(() => {
@@ -135,17 +126,24 @@ let matchIds = [];
 	}
 
 	useEffect(() => {
-		const databaseRef = ref(database, 'table2')
-
+		const databaseRef = ref(database, 'table2');
+	
 		const unsubscribe = onValue(databaseRef, (snapshot) => {
-			const data = snapshot.val()
-			setStats(data)
-			setVisible(true)
-			console.log(data)
-		})
-
-		return () => off(databaseRef, 'value', unsubscribe)
-	}, [])
+		  const data = snapshot.val();
+		  setStats(data);
+		  setVisible(true);
+		  calculateTextLength(); // Calculate text lengths after data fetch
+		  console.log(data);
+		});
+	
+		return () => off(databaseRef, 'value', unsubscribe);
+	  }, []);
+	
+	  // Add resize listener for responsive behavior
+	  useEffect(() => {
+		window.addEventListener('resize', calculateTextLength);
+		return () => window.removeEventListener('resize', calculateTextLength);
+	  }, []);
 
 	useEffect(() => {
 		const databaseRefRemote = ref(database, 'table2/remotestatusid')
