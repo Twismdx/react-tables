@@ -18,6 +18,25 @@ const Table1 = ({ split }) => {
 	const tid = '1'
 	const [matchData, setMatchData] = useState([])
 	const [ticker, setTicker] = useState([])
+	const [textLength, setTextLength] = useState(null);
+	const maxLength = 350;
+
+	useEffect(() => {
+		// Function to calculate text length
+		const calculateTextLength = () => {
+		  const svgText = document.getElementById('dynamicText');
+		  if (svgText) {
+			const computedLength = svgText.getComputedTextLength();
+			setTextLength(computedLength > maxLength ? maxLength : null);
+		  }
+		};
+
+		calculateTextLength();
+
+    // Call calculateTextLength whenever text changes
+    window.addEventListener('resize', calculateTextLength);
+    return () => window.removeEventListener('resize', calculateTextLength);
+  }, [stats]);
 
 	useEffect(() => {
     const interval = setInterval(() => {
@@ -432,7 +451,7 @@ let matchIds = [];
 									fontFamily: 'semiBold',
 									textAlign: 'center',
 								}}
-								textLength='400'
+								textLength={textLength}
   								lengthAdjust='spacingAndGlyphs'
 							>
 								{stats[0].hometeamlabel}
@@ -446,7 +465,7 @@ let matchIds = [];
 									fontFamily: 'semiBold',
 									textAlign: 'center',
 								}}
-								textLength='400'
+								textLength={textLength}
   								lengthAdjust='spacingAndGlyphs'
 							>
 								{stats[0].awayteamlabel}
