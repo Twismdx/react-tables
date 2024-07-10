@@ -432,6 +432,8 @@ let matchIds = [];
 									fontFamily: 'semiBold',
 									textAlign: 'center',
 								}}
+								textLength='400'
+  								lengthAdjust='spacingAndGlyphs'
 							>
 								{stats[0].hometeamlabel}
 							</text>
@@ -444,6 +446,8 @@ let matchIds = [];
 									fontFamily: 'semiBold',
 									textAlign: 'center',
 								}}
+								textLength='400'
+  								lengthAdjust='spacingAndGlyphs'
 							>
 								{stats[0].awayteamlabel}
 							</text>
