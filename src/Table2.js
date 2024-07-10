@@ -406,7 +406,7 @@ let matchIds = [];
 									fontFamily: 'semiBold',
 									textAlign: 'center',
 								}}
-								textLength={textLength}
+								textLength={textLength2}
   								lengthAdjust='spacingAndGlyphs'
 							>
 								{stats[0].hometeamlabel}
