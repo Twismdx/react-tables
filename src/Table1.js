@@ -179,7 +179,7 @@ let matchIds = [];
 	}
 
 	useEffect(() => {
-		const databaseRef = ref(database, 'table2');
+		const databaseRef = ref(database, 'table1');
 	
 		const unsubscribe = onValue(databaseRef, (snapshot) => {
 		  const data = snapshot.val();
